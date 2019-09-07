@@ -14,6 +14,7 @@ defmodule PwDemo.Application do
         # Children for all targets
         # Starts a worker by calling: PwDemo.Worker.start_link(arg)
         # {PwDemo.Worker, arg},
+        {Tortoise.Connection, Application.get_env(:pw_demo, :tortoise)}
       ] ++ children(target())
 
     Supervisor.start_link(children, opts)

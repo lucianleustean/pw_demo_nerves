@@ -1,6 +1,6 @@
 defmodule PwDemo.Sensors.SoilMoisture.Impl do
   @moduledoc false
-
+  require Logger
   @channel_0 <<0x01, 0x80, 0x00>>
 
   def new() do
@@ -19,11 +19,11 @@ defmodule PwDemo.Sensors.SoilMoisture.Impl do
   end
 
   defp spi_read({:ok, <<_::size(14), count::size(10)>>}) do
-    level = "#{count / 8.2 |> trunc}%"
-    IO.puts("Moisture level: #{level}")
-    level
+    level = count / 8.2 |> trunc
+    Logger.info("Sensor read: #{level}%")
+    "Moisture level at #{level}%"
   end
   defp spi_read(_dummy_data) do
-    IO.puts("Moisture sensor responded with unexpeced data ..")
+    Logger.info("Moisture sensor responded with unexpected data ..")
   end
 end

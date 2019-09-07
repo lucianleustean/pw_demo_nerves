@@ -26,6 +26,6 @@ defmodule PwDemo.Workers.SoilMoisture do
   end
 
   defp schedule_next_job() do
-    Process.send_after(self(), :perform, 2_000)
+    Process.send_after(self(), :perform, 30_000)
   end
 end

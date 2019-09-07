@@ -56,6 +56,14 @@ config :nerves_firmware_ssh,
     File.read!(Path.join(System.user_home!, ".ssh/id_rsa.pub"))
   ]
 
+config :pw_demo, :tortoise,
+  client_id: :pw_demo_rpi,
+  user_name: System.get_env("MQTT_USERNAME"),
+  password: System.get_env("MQTT_PASSWORD"),
+  handler: {PwDemo.Mqtt, []},
+  server: {Tortoise.Transport.Tcp, host: "farmer.cloudmqtt.com", port: 17208},
+  subscriptions: [{"devices/browser", 0}]
+
 if Mix.target() != :host do
   import_config "target.exs"
 end
