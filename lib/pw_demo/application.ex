@@ -33,6 +33,8 @@ defmodule PwDemo.Application do
       # Children for all targets except host
       # Starts a worker by calling: PwDemo.Worker.start_link(arg)
       # {PwDemo.Worker, arg},
+      {PwDemo.Sensors.SoilMoisture.Server, []},
+      {PwDemo.Workers.SoilMoisture, []},
     ]
   end
 
