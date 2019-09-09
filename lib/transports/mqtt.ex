@@ -25,8 +25,21 @@ defmodule PwDemo.Mqtt do
     PwDemo.Sensors.SoilMoisture.read() |> publish()
     {:ok, state}
   end
-  def handle_message(topic, payload, state) do
-    "Sorry, I can't understand your command" |> publish()
+  def handle_message(topic, "/water" <> unit, state) do
+    Logger.info "Command received: /water with #{unit} on topic: #{topic}"
+
+    case unit |> String.trim |> Integer.parse do
+      {val, ""} ->
+        PwDemo.Sensors.WaterPump.water(val)
+        publish("#{val * 30}ml of water added to the plant")
+      _error ->
+        publish("Sorry,can't process the value, please give me a unit !")
+    end
+
+    {:ok, state}
+  end
+  def handle_message(_topic, _payload, state) do
+    "Sorry, can't understand the command, master !" |> publish()
     {:ok, state}
   end
 
