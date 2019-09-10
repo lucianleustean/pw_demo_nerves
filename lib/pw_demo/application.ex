@@ -14,6 +14,7 @@ defmodule PwDemo.Application do
         # Children for all targets
         # Starts a worker by calling: PwDemo.Worker.start_link(arg)
         # {PwDemo.Worker, arg},
+        {Tortoise.Connection, Application.get_env(:pw_demo, :tortoise)}
       ] ++ children(target())
 
     Supervisor.start_link(children, opts)
@@ -33,6 +34,9 @@ defmodule PwDemo.Application do
       # Children for all targets except host
       # Starts a worker by calling: PwDemo.Worker.start_link(arg)
       # {PwDemo.Worker, arg},
+      {PwDemo.Sensors.SoilMoisture.Server, []},
+      {PwDemo.Sensors.WaterPump.Server, []},
+      {PwDemo.Workers.SoilMoisture, []},
     ]
   end
 

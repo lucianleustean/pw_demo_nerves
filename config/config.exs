@@ -26,6 +26,44 @@ config :shoehorn,
 
 config :logger, backends: [RingLogger]
 
+config :nerves_init_gadget,
+  mdns_domain: "pw_demo.local",
+  node_name: "rpi",
+  node_host: :mdns_domain,
+  # ifname: "usb0",
+  # address_method: :dhcpd
+
+  # To use wired Ethernet:
+  # ifname: "eth0",
+  # address_method: :dhcp
+
+  # To use WiFi:
+  ifname: "wlan0",
+  address_method: :dhcp
+
+# Configure wireless settings
+key_mgmt = System.get_env("NERVES_NETWORK_KEY_MGMT") || "WPA-PSK"
+
+config :nerves_network, :default,
+  wlan0: [
+    ssid: System.get_env("SSID_HOME"),
+    psk: System.get_env("PSK_HOME"),
+    key_mgmt: String.to_atom(key_mgmt)
+  ]
+
+config :nerves_firmware_ssh,
+  authorized_keys: [
+    File.read!(Path.join(System.user_home!, ".ssh/id_rsa.pub"))
+  ]
+
+config :pw_demo, :tortoise,
+  client_id: :pw_demo_rpi,
+  user_name: System.get_env("MQTT_USERNAME"),
+  password: System.get_env("MQTT_PASSWORD"),
+  handler: {PwDemo.Mqtt, []},
+  server: {Tortoise.Transport.Tcp, host: "farmer.cloudmqtt.com", port: 17208},
+  subscriptions: [{"devices/browser", 0}]
+
 if Mix.target() != :host do
   import_config "target.exs"
 end
