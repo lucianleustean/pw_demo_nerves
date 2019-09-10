@@ -1,6 +1,29 @@
-# PwDemo
+# Programmers' Week - Presentation Demo - Embedded App
 
-**TODO: Add description**
+## See the associated Web App for this project
+
+  * [Programmers' Week - Web App](https://github.com/lucianleustean/pw_demo_web)
+
+## Hardware requirements:
+
+  * RaspberryPi (tested with v2)
+  * microSD card
+  * Moisture sensor
+  * MCP3008 chip
+  * Water pump
+  * Relay
+  * Transistor 2N2222
+  * Rezistor 1k
+  * Resistor 10k
+  * Wires
+
+## Wiring Moisture sensor
+
+![Mosture sensor wiring](schematics/rpi_moisture_sensor.png)
+
+## Wiring Water Pump
+
+![Water pump wiring](schematics/rpi_water_pump.png)
 
 ## Targets
 
@@ -13,6 +36,13 @@ All of this logic is in the generated `mix.exs` and may be customized. For more
 information about targets see:
 
 https://hexdocs.pm/nerves/targets.html#content
+
+## Requirements
+
+Setup a MQTT server locally (e.g. VerneMQ) or use a hosted one (e.g. CloudMQTT)
+
+  * update `config/config.exs` or
+  * export MQTT_USERNAME="username" MQTT_PASSWORD="password"
 
 ## Getting Started
 
